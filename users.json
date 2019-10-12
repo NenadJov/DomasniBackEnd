@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Nikola",
+        "surname": "Stojkovski",
+        "email": "nikola@gmail.com",
+        "age": 24,
+        "isActive": true
+    },
+    {
+        "name": "Martin",
+        "surname": "Martinovski",
+        "email": "martin@gmail.com",
+        "age": 20,
+        "isActive": false
+    },
+    {
+        "name": "Filip",
+        "surname": "Filipovski",
+        "email": "filip@gmail.com",
+        "age": 31,
+        "isActive": true
+    },
+    {
+        "name": "Jovana",
+        "surname": "Jovanovska",
+        "email": "jovan@gmail.com",
+        "age": 18,
+        "isActive": true
+    },
+    {
+        "name": "Marija",
+        "surname": "Stojkovska",
+        "email": "marija@gmail.com",
+        "age": 28,
+        "isActive": true
+    },
+    {
+        "name": "Petar",
+        "surname": "Petrovski",
+        "email": "petar@gmail.com",
+        "age": 22,
+        "isActive": false
+    }
+]
