@@ -34,6 +34,14 @@ app.get('/read', (req, res) => {
     console.log(user);
 });
 
+app.get('/users', (req, res) => {
+    res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
+});
+
+// app.get('/users/:name', (req, res) => {
+//     res.status(200).send(JSON.parse('users.json' + req.params.name));
+// });
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`));
