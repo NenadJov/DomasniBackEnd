@@ -38,9 +38,9 @@ app.get('/users', (req, res) => {
     res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
 });
 
-// app.get('/users/:name', (req, res) => {
-//     res.status(200).send(JSON.parse('users.json' + req.params.name));
-// });
+app.get('/users/:name', (req, res) => {
+    res.status(200).send(JSON.parse('users.json' + req.params.name));
+});
 
 const PORT = process.env.PORT || 5000;
 
