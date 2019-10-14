@@ -24,14 +24,14 @@ app.get('/write', (req, res) => {
     let data = JSON.stringify(user, null, 2);
     fs.writeFileSync('dat.json', data);
     res.send(user);
-    console.log(user);
+    // console.log(user);
 });
 
 app.get('/read', (req, res) => {
     let rawdata = fs.readFileSync('dat.json');
     let user = JSON.parse(rawdata);
     res.send(user);
-    console.log(user);
+    // console.log(user);
 });
 
 app.get('/users', (req, res) => {
