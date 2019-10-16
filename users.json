@@ -1,19 +1,19 @@
 [
   {
     "id": 1,
-    "name": "Nov",
-    "surname": "Novski",
-    "email": "nov@gmail.com",
-    "age": 22,
-    "isActive": false
+    "name": "Nikola",
+    "surname": "Stojkovski",
+    "email": "nikola@gmail.com",
+    "age": 24,
+    "isActive": true
   },
   {
     "id": 2,
     "name": "Martin",
     "surname": "Martinovski",
     "email": "martin@gmail.com",
-    "age": 30,
-    "isActive": true
+    "age": 20,
+    "isActive": false
   },
   {
     "id": 3,

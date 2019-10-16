@@ -70,21 +70,34 @@ app.post('/users', (req, res) => {
     res.status(200).send('user created');
 });
 
+// app.put('/users/:id', (req, res) => {
+//     let rawdata = fs.readFileSync('users.json');
+//     let users = JSON.parse(rawdata);
+
+//     users.filter((z) => {
+//         if (z.id == req.params.id) {
+//             z.name = req.body.name;
+//             z.surname = req.body.surname;
+//             z.email = req.body.email;
+//             z.age = req.body.age;
+//             z.isActive = req.body.isActive;
+//             let data = JSON.stringify(users, null, 2);
+//             fs.writeFileSync('users.json', data);
+//         }
+//     });
+//     res.status(200).send("Full update for user with id = " + req.params.id);
+// });
+
 app.put('/users/:id', (req, res) => {
     let rawdata = fs.readFileSync('users.json');
     let users = JSON.parse(rawdata);
-
-    users.filter((z) => {
-        if (z.id == req.params.id) {
-            z.name = req.body.name;
-            z.surname = req.body.surname;
-            z.email = req.body.email;
-            z.age = req.body.age;
-            z.isActive = req.body.isActive;
-            let data = JSON.stringify(users, null, 2);
-            fs.writeFileSync('users.json', data);
-        }
+    users.forEach(member => {
+        if (member.id == req.params.id) {
+            return users.splice(users.indexOf(member), 1, req.body);
+        };
     });
+    let data = JSON.stringify(users, null, 2);
+    fs.writeFileSync('users.json', data);
     res.status(200).send("Full update for user with id = " + req.params.id);
 });
 

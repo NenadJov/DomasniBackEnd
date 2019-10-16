@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NenadJov/prvo-portfolio.git"
+    "url": "git+https://github.com/NenadJov/DomasniBackEnd.git"
   },
   "author": "nenad",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NenadJov/prvo-portfolio/issues"
+    "url": "https://github.com/NenadJov/DomasniBackEnd/issues"
   },
-  "homepage": "https://github.com/NenadJov/prvo-portfolio#readme",
+  "homepage": "https://github.com/NenadJov/DomasniBackEnd#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.1.0",
