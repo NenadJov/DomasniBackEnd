@@ -5,6 +5,13 @@ const fs = require('fs');
 
 const app = express();
 
+myLogger = (req, res, next) => {
+    console.log(`logged ${req.url} ${req.method} -- ${new Date()}`);
+    next();
+};
+
+app.use(myLogger);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -52,7 +59,7 @@ app.get('/users', (req, res) => {
 app.get('/users/:id', (req, res) => {
     let rawdata = fs.readFileSync('users.json');
     let users = JSON.parse(rawdata);
-
+    
     let currentUser = users.filter((x) => {
         return x.id == req.params.id;
     });
@@ -128,6 +135,23 @@ app.delete('/users/:id', (req, res) => {
             res.status(200).send("Delete user with id = " + req.params.id);
         };
     });
+});
+
+
+app.use((req, res, next) =>{
+    var error = new Error("Not found. Please try with another route!");
+    error.status = 404;
+    next(error);
+});
+
+app.use((err, req, res, next) =>{
+    var errorObj = {
+        status: err.status,
+        error: {
+            message: err.message
+        }
+    };
+    res.status(err.status).json(errorObj);
 });
 
 const PORT = process.env.PORT || 5000;
