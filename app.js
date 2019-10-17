@@ -56,16 +56,20 @@ app.get('/users', (req, res) => {
 //     res.status(200).send(cUser[0]);
 // });
 
-app.get('/users/:id', (req, res) => {
+app.get('/users/:id', (req, res, next) => {
     let rawdata = fs.readFileSync('users.json');
     let users = JSON.parse(rawdata);
-    
-    let currentUser = users.filter((x) => {
-        return x.id == req.params.id;
-    });
 
-    res.status(200).send(currentUser[0]);
-
+    if (req.params.id == 0) {
+        var error = new Error("id can not be 0!!!");
+        error.status = 403;
+        next(error);
+    } else {
+        let currentUser = users.filter((x) => {
+            return x.id == req.params.id;
+        });
+        res.status(200).send(currentUser[0]);
+    }
 });
 
 app.post('/users', (req, res) => {
@@ -138,13 +142,13 @@ app.delete('/users/:id', (req, res) => {
 });
 
 
-app.use((req, res, next) =>{
+app.use((req, res, next) => {
     var error = new Error("Not found. Please try with another route!");
     error.status = 404;
     next(error);
 });
 
-app.use((err, req, res, next) =>{
+app.use((err, req, res, next) => {
     var errorObj = {
         status: err.status,
         error: {
