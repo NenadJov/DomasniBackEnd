@@ -46,5 +46,13 @@
     "email": "petar@gmail.com",
     "age": 22,
     "isActive": false
+  },
+  {
+    "id": 7,
+    "name": "Nenad",
+    "surname": "Jovceski",
+    "email": "nenad@gmail.com",
+    "age": 42,
+    "isActive": true
   }
 ]
