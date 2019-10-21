@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv/config');
 var bodyParser = require('body-parser');
 const fs = require('fs');
-
+const users = require('./users/routes');
 const app = express();
 
 myLogger = (req, res, next) => {
@@ -15,9 +15,7 @@ app.use(myLogger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.get('/', (req, res) =>{
-//     res.send('<h1>hello world</h1>');
-// });
+app.use('/users', users);
 
 let user = {
     name: 'Nenad',
@@ -41,9 +39,7 @@ app.get('/read', (req, res) => {
     // console.log(user);
 });
 
-app.get('/users', (req, res) => {
-    res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
-});
+
 
 // app.get('/users/:name', (req, res) => {
 //     let rawdata = fs.readFileSync('users.json');
@@ -72,15 +68,16 @@ app.get('/users/:id', (req, res, next) => {
     }
 });
 
-app.post('/users', (req, res) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
-    users.push(req.body);
-    let data = JSON.stringify(users, null, 2);
-    fs.writeFileSync('users.json', data);
-    res.status(200).send('user created');
-});
+// app.post('/users', (req, res) => {
+//     let rawdata = fs.readFileSync('users.json');
+//     let users = JSON.parse(rawdata);
+//     users.push(req.body);
+//     let data = JSON.stringify(users, null, 2);
+//     fs.writeFileSync('users.json', data);
+//     res.status(200).send('user created');
+// });
 
+//ova e dobro resenie
 // app.put('/users/:id', (req, res) => {
 //     let rawdata = fs.readFileSync('users.json');
 //     let users = JSON.parse(rawdata);
@@ -141,6 +138,22 @@ app.delete('/users/:id', (req, res) => {
     });
 });
 
+app.post('/users', (req, res, next) => {
+    let rawdata = fs.readFileSync('users.json');
+    let users = JSON.parse(rawdata);
+    users.forEach(member => {
+        if (member.id == req.body.id) {
+            var error = new Error("id already exist!!!");
+            error.status = 409;
+            next(error);
+        } else {
+            users.push(req.body);
+            let data = JSON.stringify(users, null, 2);
+            fs.writeFileSync('users.json', data);
+        }
+    });
+    res.status(200).send('user created');
+});
 
 app.use((req, res, next) => {
     var error = new Error("Not found. Please try with another route!");
