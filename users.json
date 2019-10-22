@@ -33,11 +33,11 @@
   },
   {
     "id": 5,
-    "name": "Marija",
-    "surname": "Stojkovska",
-    "email": "marija@gmail.com",
-    "age": 28,
-    "isActive": true
+    "name": "Nova",
+    "surname": "Novska",
+    "email": "nova@gmail.com",
+    "age": 25,
+    "isActive": false
   },
   {
     "id": 6,
