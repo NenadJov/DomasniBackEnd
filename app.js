@@ -6,14 +6,6 @@ const users = require('./users/routes');
 const middleware = require('./middlewares/common');
 const app = express();
 
-
-// myLogger = (req, res, next) => {
-//     console.log(`logged ${req.url} ${req.method} -- ${new Date()}`);
-//     next();
-// };
-
-// app.use(myLogger);
-
 app.use(middleware.logger);
 
 app.use(bodyParser.urlencoded({ extended: false }));

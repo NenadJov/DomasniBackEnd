@@ -5,7 +5,7 @@ const actions = require('./actions');
 
 var routes = express.Router();
 
-// routes.get('/', (req, res) =>{ //testna ruta
+// routes.get('/', (req, res) =>{      //testna ruta
 //     res.send('hello world');
 // });
 
@@ -24,18 +24,18 @@ routes.get('/', actions.getAllUsers);
 
 routes.get('/:id', actions.getSpecificUser);
 
-routes.put('/:id', (req, res) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
-    users.forEach(member => {
-        if (member.id == req.params.id) {
-            return users.splice(users.indexOf(member), 1, req.body);
-        };
-    });
-    let data = JSON.stringify(users, null, 2);
-    fs.writeFileSync('users.json', data);
-    res.status(200).send("Full update for user with id = " + req.params.id);
-});
+routes.post('/', actions.createUser);
+
+// routes.post('/users', (req, res) => {
+//     let rawdata = fs.readFileSync('users.json');
+//     let users = JSON.parse(rawdata);
+//     users.push(req.body);
+//     let data = JSON.stringify(users, null, 2);
+//     fs.writeFileSync('users.json', data);
+//     res.status(200).send('user created');
+// });
+
+routes.put('/:id', actions.changeUser);
 
 //ova e dobro resenie
 // routes.put('/:id', (req, res) => {
@@ -56,44 +56,8 @@ routes.put('/:id', (req, res) => {
 //     res.status(200).send("Full update for user with id = " + req.params.id);
 // });
 
-routes.patch('/:id', (req, res) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
+routes.patch('/:id', actions.changePartUser);
 
-    users.forEach(member => {
-        if (member.id === parseInt(req.params.id)) {
-            member.age = req.body.age;
-            member.isActive = req.body.isActive;
-            let data = JSON.stringify(users, null, 2);
-            fs.writeFileSync('users.json', data);
-            return;
-        }
-    })
-    res.send("Partial update for user with id = " + req.params.id);
-});
-
-routes.post('/', actions.createUser);
-
-// routes.post('/users', (req, res) => {
-//     let rawdata = fs.readFileSync('users.json');
-//     let users = JSON.parse(rawdata);
-//     users.push(req.body);
-//     let data = JSON.stringify(users, null, 2);
-//     fs.writeFileSync('users.json', data);
-//     res.status(200).send('user created');
-// });
-
-routes.delete('/:id', (req, res) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
-    users.forEach(member => {
-        if (member.id == req.params.id) {
-            users.splice(users.indexOf(member), 1);
-            let data = JSON.stringify(users, null, 2);
-            fs.writeFileSync('users.json', data);
-            res.status(200).send("Delete user with id = " + req.params.id);
-        };
-    });
-});
+routes.delete('/:id',actions.deleteUser);
 
 module.exports = routes;

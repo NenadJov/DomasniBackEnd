@@ -32,27 +32,11 @@
     "isActive": true
   },
   {
-    "id": 5,
-    "name": "Nova",
-    "surname": "Novska",
-    "email": "nova@gmail.com",
-    "age": 25,
-    "isActive": false
-  },
-  {
     "id": 6,
     "name": "Petar",
     "surname": "Petrovski",
     "email": "petar@gmail.com",
     "age": 22,
     "isActive": false
-  },
-  {
-    "id": 7,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 42,
-    "isActive": true
   }
 ]
