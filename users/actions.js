@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { emailValidator } = require('../helper');
 
 getAllUsers = (req, res) =>{
     res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
