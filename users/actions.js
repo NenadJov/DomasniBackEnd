@@ -1,9 +1,31 @@
 const fs = require('fs');
 const path = require('path');
 const { emailValidator } = require('../helper');
+const connection = require('../database');
 
-getAllUsers = (req, res) =>{
-    res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
+
+
+getAllUsersQuery = () => {
+    const query = 'SELECT * FROM user';
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+getAllUsers = async(req, res) => {
+    // res.status(200).send(JSON.parse(fs.readFileSync('users.json')));
+    try {
+        const users = await getAllUsersQuery();
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 };
 
 getSpecificUser = (req, res, next) => {
@@ -68,7 +90,7 @@ changePartUser = (req, res) => {
     res.send("Partial update for user with id = " + req.params.id);
 };
 
-deleteUser =  (req, res) => {
+deleteUser = (req, res) => {
     let rawdata = fs.readFileSync('users.json');
     let users = JSON.parse(rawdata);
     users.forEach(member => {

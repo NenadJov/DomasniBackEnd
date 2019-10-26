@@ -2,6 +2,8 @@ var express = require('express');
 const fs = require('fs');
 const path = require('path');
 const actions = require('./actions');
+const { emailValidator } = require('../helper');
+const { checkIsOlderThan18 } = require('../helper');
 
 var routes = express.Router();
 
@@ -24,7 +26,7 @@ routes.get('/', actions.getAllUsers);
 
 routes.get('/:id', actions.getSpecificUser);
 
-routes.post('/', actions.createUser);
+routes.post('/', emailValidator, checkIsOlderThan18, actions.createUser);
 
 // routes.post('/users', (req, res) => {
 //     let rawdata = fs.readFileSync('users.json');
