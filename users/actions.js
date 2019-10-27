@@ -66,21 +66,46 @@ getSpecificUser = async (req, res, next) => {
     // }
 };
 
-createUser = (req, res, next) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
-    users.forEach(member => {
-        if (member.id == req.body.id) {
-            var error = new Error("id already exist!!!");
-            error.status = 409;
-            next(error);
-        } else {
-            users.push(req.body);
-            let data = JSON.stringify(users, null, 2);
-            fs.writeFileSync('users.json', data);
-        }
+createUserQuery = (name,surname,email,age,isActive) => {
+    const query = 'INSERT INTO user (Name, Surname, Email, Age, IsActive) VALUES (?, ?, ?, ?, ?)';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [name, surname, email, age, isActive], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
     });
-    res.status(200).send('user created');
+};
+
+createUser = async (req, res, next) => {
+    const userName = req.body.name;
+    const userSurname = req.body.surname;
+    const userEmail = req.body.email;
+    const userAge = req.body.age;
+    const userIsActive = req.body.isActive;
+
+    try {
+        const user = await createUserQuery(userName, userSurname, userEmail, userAge, userIsActive);
+        res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+    // let rawdata = fs.readFileSync('users.json');
+    // let users = JSON.parse(rawdata);
+    // users.forEach(member => {
+    //     if (member.id == req.body.id) {
+    //         var error = new Error("id already exist!!!");
+    //         error.status = 409;
+    //         next(error);
+    //     } else {
+    //         users.push(req.body);
+    //         let data = JSON.stringify(users, null, 2);
+    //         fs.writeFileSync('users.json', data);
+    //     }
+    // });
+    // res.status(200).send('user created');
 }
 
 changeUser = (req, res) => {

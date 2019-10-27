@@ -46,45 +46,5 @@
     "email": "petar@gmail.com",
     "age": 22,
     "isActive": false
-  },
-  {
-    "id": 5,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 22,
-    "isActive": true
-  },
-  {
-    "id": 5,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 22,
-    "isActive": true
-  },
-  {
-    "id": 5,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 22,
-    "isActive": true
-  },
-  {
-    "id": 5,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 22,
-    "isActive": true
-  },
-  {
-    "id": 5,
-    "name": "Nenad",
-    "surname": "Jovceski",
-    "email": "nenad@gmail.com",
-    "age": 22,
-    "isActive": true
   }
 ]
