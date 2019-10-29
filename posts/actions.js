@@ -45,10 +45,10 @@ getSpecificPost = async (req, res, next) => {
     }
 };
 
-createPostQuery = (text,likes) => {
-    const query = 'INSERT INTO posts (Text, Likes, CreatedOn) VALUES (?, ?, now())';
+createPostQuery = (text,likes,userId) => {
+    const query = 'INSERT INTO posts (Text, Likes, CreatedOn, UserId) VALUES (?, ?, now(), ?)';
     return new Promise((resolve, reject) => {
-        connection.query(query, [text, likes], (error, results, fields) => {
+        connection.query(query, [text, likes, userId], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
@@ -61,10 +61,11 @@ createPostQuery = (text,likes) => {
 createPost = async (req, res, next) => {
     const postText = req.body.text;
     const postLikes = req.body.likes;
+    const postUserId = req.body.userId
 
     try {
-        const post = await createPostQuery(postText, postLikes);
-        res.status(200).send(post);
+        const post = await createPostQuery(postText, postLikes, postUserId);
+        res.status(200).send("post is created with id " + post.insertId);
     } catch (error) {
         res.status(500).send(error.message);
     }
