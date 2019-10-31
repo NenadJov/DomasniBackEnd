@@ -108,17 +108,38 @@ createUser = async (req, res, next) => {
     // res.status(200).send('user created');
 }
 
-changeUser = (req, res) => {
-    let rawdata = fs.readFileSync('users.json');
-    let users = JSON.parse(rawdata);
-    users.forEach(member => {
-        if (member.id == req.params.id) {
-            return users.splice(users.indexOf(member), 1, req.body);
-        };
+changeUserQuery = (id, user) => {
+    const query = 'UPDATE user SET Name = ?, Surname = ?, Email = ?, Age = ?, IsActive = ? WHERE Id = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [user.name, user.surname, user.email, user.age, user.isActive, id], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
     });
-    let data = JSON.stringify(users, null, 2);
-    fs.writeFileSync('users.json', data);
-    res.status(200).send("Full update for user with id = " + req.params.id);
+};
+
+changeUser = async (req, res, next) => {
+    const user = req.body;
+    const id = req.params.id;
+    try {
+        const users = await changeUserQuery(user, id);
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+    // let rawdata = fs.readFileSync('users.json');
+    // let users = JSON.parse(rawdata);
+    // users.forEach(member => {
+    //     if (member.id == req.params.id) {
+    //         return users.splice(users.indexOf(member), 1, req.body);
+    //     };
+    // });
+    // let data = JSON.stringify(users, null, 2);
+    // fs.writeFileSync('users.json', data);
+    // res.status(200).send("Full update for user with id = " + req.params.id);
 };
 
 changePartUser = (req, res) => {

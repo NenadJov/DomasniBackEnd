@@ -11,7 +11,7 @@ var routes = express.Router();
 //     res.send('hello world');
 // });
 
-routes.get('/', actions.getAllUsers);
+routes.get('/users', actions.getAllUsers);
 
 // routes.get('/:name', (req, res) => {
 //     let rawdata = fs.readFileSync('users.json');
@@ -24,9 +24,9 @@ routes.get('/', actions.getAllUsers);
 //     res.status(200).send(cUser[0]);
 // });
 
-routes.get('/:id', actions.getSpecificUser);
+routes.get('/users/:id', actions.getSpecificUser);
 
-routes.post('/', emailValidator, checkIsOlderThan18, actions.createUser);
+routes.post('/users', emailValidator, checkIsOlderThan18, actions.createUser);
 
 // routes.post('/users', (req, res) => {
 //     let rawdata = fs.readFileSync('users.json');
@@ -37,7 +37,7 @@ routes.post('/', emailValidator, checkIsOlderThan18, actions.createUser);
 //     res.status(200).send('user created');
 // });
 
-routes.put('/:id', actions.changeUser);
+routes.put('/users/:id', actions.changeUser);
 
 //ova e dobro resenie
 // routes.put('/:id', (req, res) => {
