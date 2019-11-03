@@ -45,7 +45,7 @@ getSpecificPost = async (req, res, next) => {
     }
 };
 
-createPostQuery = (text,likes,userId) => {
+createPostQuery = (text, likes, userId) => {
     const query = 'INSERT INTO posts (Text, Likes, CreatedOn, UserId) VALUES (?, ?, now(), ?)';
     return new Promise((resolve, reject) => {
         connection.query(query, [text, likes, userId], (error, results, fields) => {
@@ -71,8 +71,33 @@ createPost = async (req, res, next) => {
     }
 };
 
+updatePostQuery = (id, post) => {
+    const query = 'UPDATE posts SET Text = ?, Likes = ?, CreatedOn = now() WHERE Id = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [post.text, post.likes, id], (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+updatePost = async (req, res, next) =>{
+    const postRequest = req.body;
+    const postId = req.params.postId;
+    try {
+        const post = await updatePostQuery(postId, postRequest);
+        res.status(200).send(post); //"post is updated with id " + post);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
 module.exports = {
     getAllPosts,
     getSpecificPost,
     createPost,
+    updatePost,
 }

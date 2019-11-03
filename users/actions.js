@@ -3,7 +3,7 @@ const path = require('path');
 const connection = require('../database');
 
 getAllUsersQuery = () => {
-    const query = 'SELECT * FROM user';
+            const query = 'SELECT * FROM user';
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {
             if (error) {
@@ -115,7 +115,12 @@ changeUserQuery = (id, user) => {
             if (error) {
                 reject(error);
             } else {
-                resolve(results);
+                console.log(results);
+                if (results.affectedRows == 0) {
+                    reject("nema user so takvo id")
+                } else {
+                    resolve(results);
+                }
             }
         });
     });
@@ -125,7 +130,7 @@ changeUser = async (req, res, next) => {
     const user = req.body;
     const id = req.params.id;
     try {
-        const users = await changeUserQuery(user, id);
+        const users = await changeUserQuery(id, user);
         res.status(200).send(users);
     } catch (error) {
         res.status(500).send(error.message);
