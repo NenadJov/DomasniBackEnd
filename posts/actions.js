@@ -1,22 +1,42 @@
 const connection = require('../database');
 
-getAllPostsQuery = () => {
-    const query = 'SELECT * FROM posts';
+getAllPostsQuery = (user) => {
+    const query = 'SELECT * FROM user JOIN posts ON user.Id = posts.UserId WHERE user.Id= ?';
     return new Promise((resolve, reject) => {
-        connection.query(query, (error, results, fields) => {
+        connection.query(query,[user], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
                 resolve(results);
+                // console.log(results);
             }
         });
     });
 };
 
 getAllPosts = async (req, res) => {
+    user = req.params.userId;
+    // console.log(user);
     try {
-        const posts = await getAllPostsQuery();
-        res.status(200).send(posts);
+        const users = await getAllPostsQuery(user);
+        // console.log(users);
+        var finalData = users.map(member => {
+            postObj = {
+                text : member.text,
+                date : member.date,
+                likes :member.likes
+            }
+            return postObj;
+        })
+        var final = {
+            id : users[0].id,
+            name : users[0].name,
+            surname : users[0].surname,
+            email : users[0].email,
+            age : users[0].age,
+            posts : finalData
+        }
+        res.status(200).send(final);
     } catch (error) {
         res.status(500).send(error.message);
     }
