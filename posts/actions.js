@@ -22,18 +22,18 @@ getAllPosts = async (req, res) => {
         // console.log(users);
         var finalData = users.map(member => {
             postObj = {
-                text : member.text,
-                date : member.date,
-                likes :member.likes
+                text : member.Text,
+                date : member.CreatedOn,
+                likes :member.Likes
             }
             return postObj;
         })
         var final = {
-            id : users[0].id,
-            name : users[0].name,
-            surname : users[0].surname,
-            email : users[0].email,
-            age : users[0].age,
+            id : users[0].UserId,
+            name : users[0].Name,
+            surname : users[0].Surname,
+            email : users[0].Email,
+            age : users[0].Age,
             posts : finalData
         }
         res.status(200).send(final);
