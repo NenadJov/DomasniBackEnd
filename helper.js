@@ -1,5 +1,5 @@
 emailValidator = (req, res, next) => {
-    if (req.body.email.length <= 10 || !req.body.email.includes("@") || !req.body.email.includes(".com")) {
+    if (req.body.email.length <= 6 || !req.body.email.includes("@") || !req.body.email.includes(".com")) {
         var error = new Error("Invalid email");
         error.status = 401;
         next(error);

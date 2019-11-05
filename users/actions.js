@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const connection = require('../database');
+var bcrypt = require('bcryptjs');
 
 getAllUsersQuery = () => {
             const query = 'SELECT * FROM user';
@@ -37,6 +38,7 @@ getSpecificUserQuery = (userId) => {
         });
     });
 };
+
 getSpecificUser = async (req, res, next) => {
     const userId = req.params.id;
 
@@ -66,10 +68,10 @@ getSpecificUser = async (req, res, next) => {
     // }
 };
 
-createUserQuery = (name,surname,email,age,isActive) => {
-    const query = 'INSERT INTO user (Name, Surname, Email, Age, IsActive) VALUES (?, ?, ?, ?, ?)';
+createUserQuery = (name,surname,email,age,isActive,pass) => {
+    const query = 'INSERT INTO user (Name, Surname, Email, Age, IsActive, Password) VALUES (?, ?, ?, ?, ?, ?)';
     return new Promise((resolve, reject) => {
-        connection.query(query, [name, surname, email, age, isActive], (error, results, fields) => {
+        connection.query(query, [name, surname, email, age, isActive, pass], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
@@ -80,14 +82,17 @@ createUserQuery = (name,surname,email,age,isActive) => {
 };
 
 createUser = async (req, res, next) => {
-    const userName = req.body.name;
-    const userSurname = req.body.surname;
-    const userEmail = req.body.email;
-    const userAge = req.body.age;
-    const userIsActive = req.body.isActive;
+    const userName = req.body.Name;
+    const userSurname = req.body.Surname;
+    const userEmail = req.body.Email;
+    const userAge = req.body.Age;
+    const userIsActive = req.body.IsActive;
+    const userPassword = req.body.Password;
+    console.log(userPassword);
 
     try {
-        const user = await createUserQuery(userName, userSurname, userEmail, userAge, userIsActive);
+        const passHash = bcrypt.hashSync(userPassword, 10);
+        const user = await createUserQuery(userName, userSurname, userEmail, userAge, userIsActive, passHash);
         res.status(200).send(user);
     } catch (error) {
         res.status(500).send(error.message);
@@ -176,11 +181,42 @@ deleteUser = (req, res) => {
     });
 };
 
+getUserByEmailQuery = (email) => {
+    const query = 'SELECT * FROM user WHERE Email = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [email], (error, results, fields) =>{
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+loginUser = async (req, res) =>{
+    const email = req.body.Email;
+    const pass = req.body.Password;
+    // console.log(pass);
+    try {
+        var user = await getUserByEmailQuery(email);
+        var dbUser = user[0];
+        const matchPass = bcrypt.compareSync(pass, dbUser.Password);
+        if (matchPass) {
+            res.status(200).send("pass match")
+        } else {
+            res.status(401).send('wrong pass')
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 module.exports = {
     getAllUsers,
     getSpecificUser,
     createUser,
     changeUser,
     changePartUser,
-    deleteUser
+    deleteUser,
+    loginUser
 }
