@@ -6,6 +6,7 @@ const fs = require('fs');
 const appRouter = require('./router');
 const middleware = require('./middlewares/common');
 require('dotenv/config');
+var jwt = require('express-jwt');
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use(middleware.logger);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+const publicRoutes = ['/login'];
+app.use(jwt({ secret: 'aaaa'}).unless({path:publicRoutes}));
 
 // app.use('/users', users);
 // app.use('/posts', posts);

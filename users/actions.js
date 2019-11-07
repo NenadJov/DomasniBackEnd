@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const connection = require('../database');
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 getAllUsersQuery = () => {
             const query = 'SELECT * FROM user';
@@ -203,9 +204,10 @@ loginUser = async (req, res) =>{
         var dbUser = user[0];
         const matchPass = bcrypt.compareSync(pass, dbUser.Password);
         if (matchPass) {
-            res.status(200).send("pass match")
+            const token = jwt.sign({dbUser}, 'aaaa', { expiresIn: '1h'});
+            res.status(200).send(token);
         } else {
-            res.status(401).send('wrong pass')
+            res.status(401).send('wrong pass');
         }
     } catch (error) {
         res.status(500).send(error.message);
