@@ -24,39 +24,39 @@ routes.get('/users', actions.getAllUsers);
         //     res.status(200).send(cUser[0]);
         // });
         
-        routes.get('/users/:id', actions.getSpecificUser);
+routes.get('/users/:id', actions.getSpecificUser);
         
-        routes.post('/users', emailValidator, checkIsOlderThan18, actions.createUser);
+routes.post('/users', emailValidator, checkIsOlderThan18, actions.createUser);
         
-        // routes.post('/users', (req, res) => {
-            //     let rawdata = fs.readFileSync('users.json');
-            //     let users = JSON.parse(rawdata);
-            //     users.push(req.body);
-            //     let data = JSON.stringify(users, null, 2);
-            //     fs.writeFileSync('users.json', data);
-            //     res.status(200).send('user created');
+// routes.post('/users', (req, res) => {
+    //     let rawdata = fs.readFileSync('users.json');
+    //     let users = JSON.parse(rawdata);
+    //     users.push(req.body);
+    //     let data = JSON.stringify(users, null, 2);
+    //     fs.writeFileSync('users.json', data);
+    //     res.status(200).send('user created');
+    // });
+            
+routes.put('/users/:id', actions.changeUser);
+            
+//ova e dobro resenie
+// routes.put('/:id', (req, res) => {
+    //     let rawdata = fs.readFileSync('users.json');
+    //     let users = JSON.parse(rawdata);
+    
+    //     users.filter((z) => {
+        //         if (z.id == req.params.id) {
+            //             z.name = req.body.name;
+            //             z.surname = req.body.surname;
+            //             z.email = req.body.email;
+            //             z.age = req.body.age;
+            //             z.isActive = req.body.isActive;
+            //             let data = JSON.stringify(users, null, 2);
+            //             fs.writeFileSync('users.json', data);
+            //         }
+            //     });
+            //     res.status(200).send("Full update for user with id = " + req.params.id);
             // });
-            
-            routes.put('/users/:id', actions.changeUser);
-            
-            //ova e dobro resenie
-            // routes.put('/:id', (req, res) => {
-                //     let rawdata = fs.readFileSync('users.json');
-                //     let users = JSON.parse(rawdata);
-                
-                //     users.filter((z) => {
-                    //         if (z.id == req.params.id) {
-                        //             z.name = req.body.name;
-                        //             z.surname = req.body.surname;
-                        //             z.email = req.body.email;
-                        //             z.age = req.body.age;
-                        //             z.isActive = req.body.isActive;
-                        //             let data = JSON.stringify(users, null, 2);
-                        //             fs.writeFileSync('users.json', data);
-                        //         }
-                        //     });
-                        //     res.status(200).send("Full update for user with id = " + req.params.id);
-                        // });
                         
 routes.patch('/:id', actions.changePartUser);
 
