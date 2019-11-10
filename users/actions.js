@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
 getAllUsersQuery = () => {
-            const query = 'SELECT * FROM user';
+    const query = 'SELECT * FROM user';
     return new Promise((resolve, reject) => {
         connection.query(query, (error, results, fields) => {
             if (error) {
@@ -30,7 +30,7 @@ getAllUsers = async (req, res) => {
 getSpecificUserQuery = (userId) => {
     const query = 'SELECT * FROM user WHERE Id = ?';
     return new Promise((resolve, reject) => {
-        connection.query(query, [userId], (error, results, fields) =>{
+        connection.query(query, [userId], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
@@ -43,7 +43,7 @@ getSpecificUserQuery = (userId) => {
 getSpecificUser = async (req, res, next) => {
     const userId = req.params.id;
 
-    if(userId <= 0){
+    if (userId <= 0) {
         var error = new Error('id can not be less than 0!');
         error.status = 403;
         next(error);
@@ -69,7 +69,7 @@ getSpecificUser = async (req, res, next) => {
     // }
 };
 
-createUserQuery = (name,surname,email,age,isActive,pass) => {
+createUserQuery = (name, surname, email, age, isActive, pass) => {
     const query = 'INSERT INTO user (Name, Surname, Email, Age, IsActive, Password) VALUES (?, ?, ?, ?, ?, ?)';
     return new Promise((resolve, reject) => {
         connection.query(query, [name, surname, email, age, isActive, pass], (error, results, fields) => {
@@ -185,7 +185,7 @@ deleteUser = (req, res) => {
 getUserByEmailQuery = (email) => {
     const query = 'SELECT * FROM user WHERE Email = ?';
     return new Promise((resolve, reject) => {
-        connection.query(query, [email], (error, results, fields) =>{
+        connection.query(query, [email], (error, results, fields) => {
             if (error) {
                 reject(error);
             } else {
@@ -195,7 +195,7 @@ getUserByEmailQuery = (email) => {
     });
 };
 
-loginUser = async (req, res) =>{
+loginUser = async (req, res) => {
     const email = req.body.Email;
     const pass = req.body.Password;
     // console.log(pass);
@@ -204,7 +204,7 @@ loginUser = async (req, res) =>{
         var dbUser = user[0];
         const matchPass = bcrypt.compareSync(pass, dbUser.Password);
         if (matchPass) {
-            const token = jwt.sign({dbUser}, 'aaaa', { expiresIn: '1h'});
+            const token = jwt.sign({ dbUser }, 'aaaa', { expiresIn: '1h' });
             res.status(200).send(token);
         } else {
             res.status(401).send('wrong pass');
