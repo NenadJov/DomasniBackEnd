@@ -60,7 +60,7 @@ routes.put('/users/:id', actions.changeUser);
                         
 routes.patch('/:id', actions.changePartUser);
 
-routes.delete('/:id',actions.deleteUser);
+routes.delete('/users/:id',actions.deleteUser);
 
 routes.post('/login', actions.loginUser);
 

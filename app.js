@@ -15,8 +15,8 @@ app.use(middleware.logger);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const publicRoutes = ['/login'];
-app.use(jwt({ secret: 'aaaa'}).unless({path:publicRoutes}));
+// const publicRoutes = ['/login'];  //ovie dve se komentiraat koga ne treba da se koristi token!!!
+// app.use(jwt({ secret: 'aaaa'}).unless({path:publicRoutes}));
 
 // app.use('/users', users);
 // app.use('/posts', posts);
