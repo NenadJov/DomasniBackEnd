@@ -7,6 +7,8 @@ routes.get('/users/:userId/posts', actions.getAllPosts);
 routes.get('/users/:userId/posts/:postId', actions.getSpecificPost);
 routes.post('/users/:userId/posts', actions.createPost);
 routes.put('/users/:userId/posts/:postId', actions.updatePost);
+routes.get('/users/:userId/user-posts', actions.getPostsForUser) //rutata e cudna?
+
 // routes.patch('/:id', actions.changePartUser);
 // routes.delete('/:id',actions.deleteUser);
 

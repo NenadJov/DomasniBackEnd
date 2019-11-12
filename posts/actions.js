@@ -87,7 +87,7 @@ createPostQuery = (text, likes, userId) => {
 createPost = async (req, res, next) => {
     const postText = req.body.text;
     const postLikes = req.body.likes;
-    const postUserId = req.body.userId
+    const postUserId = req.body.userId;
 
     try {
         const post = await createPostQuery(postText, postLikes, postUserId);
